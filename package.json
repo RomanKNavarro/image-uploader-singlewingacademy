@@ -1,32 +1,27 @@
 {
-  "name": "mernherokutemplate",
+  "name": "mernimageuploader--singlewingacademy",
   "version": "1.0.0",
-  "description": "A MERN template for deployment to Heroku",
-  "author": "Thomas Foydel",
+  "description": "mern app for uploading images and other files",
   "main": "index.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
-    "start": "node index.js",
-    "server": "nodemon index.js",
-    "client": "npm start --prefix client",
-    "server-install": "npm install",
-    "install-all": "npm i -D concurrently; concurrently \"npm run server-install\" \"npm run client-install\"",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "engines": {
-    "node": "12.18.3",
-    "npm": "7.10.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RomanRenders/image-uploader-singlewingacademy.git"
   },
+  "author": "Roman Navarro",
   "license": "MIT",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "mongoose": "^5.11.19"
+  "bugs": {
+    "url": "https://github.com/RomanRenders/image-uploader-singlewingacademy/issues"
   },
-  "devDependencies": {
-    "concurrently": "^6.0.2",
-    "nodemon": "^2.0.7"
+  "homepage": "https://github.com/RomanRenders/image-uploader-singlewingacademy#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "concurrently": "^7.6.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.1",
+    "nodemon": "^2.0.20"
   }
 }
