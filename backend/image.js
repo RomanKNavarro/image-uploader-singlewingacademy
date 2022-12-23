@@ -15,7 +15,7 @@ const conn = mongoose.createConnection(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
-  // what's up with these ^^? We had none in the Traversy app. 
+  // what's up with these ^^? We had none in the Traversy app. These are "connection options". See notes. 
 });
 
 let gfs;
@@ -25,7 +25,8 @@ conn.once('open', () => {
 
 const storage = new GridFsStorage({
   url: mongoURI,
-  options: { useUnifiedTopology: true },
+  options: { useUnifiedTopology: true },    
+  // AGAIN: WHAT IS useUnifiedTopology? Other than this, "storage" is identical to mine.
   file: (req, file) => {
     // this function runs every time a new file is created
     return new Promise((resolve, reject) => {
@@ -37,6 +38,8 @@ const storage = new GridFsStorage({
         // turn the random bytes into a string and add the file extention at the end of it (.png or .jpg)
         // this way our file names will not collide if someone uploads the same file twice
         const filename = buf.toString('hex') + path.extname(file.originalname);
+        /* ME: What exactly is this string combination? 16 random bytes (which replace the filename), 
+        plus the file's extension (eg: .txt) */
         const fileInfo = {
           filename: filename,
           bucketName: 'images',
@@ -47,3 +50,28 @@ const storage = new GridFsStorage({
     });
   },
 });
+
+// set up our multer to use the gridfs storage defined above
+const store = multer({
+  storage,
+  // limit the size to 20mb for any files coming in
+  limits: { fileSize: 20000000 },
+  // filter out invalid filetypes:
+  fileFilter: function (req, file, cb) {
+    checkFileType(file, cb);  // custom func. 
+  },
+}); // SUPER EASY ^^. "limits" and "fileFilter" (args: req, file, cb) are optional
+
+// MINE: Set multer storage engine to the newly created object
+// const upload = multer({ storage });
+
+function checkFileType(file, cb) {
+  const filetypes = /jpeg|jpg|png|gif/;   // REGEX FOR ACCEPTABLE FILE TYPES
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // what is path.extname()? to get the extension of the given filename. What "extname" is is straightforward (extension)
+  const mimetype = filetypes.test(file.mimetype);
+  /* what's the mimetype again?? forgot exactly, but here, if the extname and mimetype pass the regex test, 
+  then we return "null" for the error, and "true" b/c it passed our filter */
+  if (mimetype && extname) return cb(null, true); 
+  cb('filetype'); // otherwise, return the error function with 'filetype' as arg.  
+}
