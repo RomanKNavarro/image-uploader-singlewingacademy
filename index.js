@@ -3,7 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const imageRoutes = require("./routes/image");  // get our image routes from this file. 
+const imageRoutes = require("./routes/imageRoutes");  // get our image routes from this file. 
+// const imageRoutes = require('./routes/image'); 
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -13,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // put your routes here
-app.use("/api/image", imageRoutes) 
+app.use("/api/image", () => imageRoutes) 
 // any request from the frontend that gets sent to a route beginning with "/api/image" gets sent to imageRoutes.
 
 
