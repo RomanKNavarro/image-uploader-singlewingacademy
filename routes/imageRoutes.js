@@ -13,8 +13,8 @@ const mongoURI = process.env.MONGO_URI;
 
 const conn = mongoose.createConnection(mongoURI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
+  useUnifiedTopology: true
+  //useCreateIndex: true,
   // what's up with these ^^? We had none in the Traversy app. These are "connection options". See notes. 
 });
 
