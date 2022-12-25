@@ -73,7 +73,26 @@ const Regular = () => {
   };
 
   return (
+    // SHOW IMAGES ON FRONTEND:
     <div className='regular'>
+      <div className='image-section'>
+        {imageId ? (
+          <>
+            <img
+              className='image'
+              src={`/api/image/${imageId}`}
+              alt='regular version'
+            />
+            <a className='link' href={`/api/image/${imageId}`} target='_blank'>
+              link
+            </a>
+          </>
+        ) : (
+          <p className='nopic'>no regular version pic yet</p>
+        )}
+      </div>
+
+      {/* FILE FORM. TODO: EXPLAIN. */}
       <div className='inputcontainer'>
         {currentlyUploading ? (     // IF CURRENTLY LOADING, RENDER THE IMAGE. 
           <img
@@ -96,7 +115,8 @@ const Regular = () => {
               htmlFor='file'        // "this is file b/c this links it to the input above ^^"
               onClick={handleClick}
             >
-              {file ? <>SUBMIT</> : <>REGULAR VERSION</>}
+              {file ? <>SUBMIT</> : <>REGULAR VERSION</>}   
+              {/* if there's currently a "file", button says SUBMIT. Otherwise, REGULAR VERSION */}
             </label>
           </>
         )}
