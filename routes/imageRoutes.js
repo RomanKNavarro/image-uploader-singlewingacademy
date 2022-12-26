@@ -13,14 +13,14 @@ const mongoURI = process.env.MONGO_URI;
 
 const conn = mongoose.createConnection(mongoURI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
-  //useCreateIndex: true,
+  useUnifiedTopology: true,
+  // useCreateIndex: true,
   // what's up with these ^^? We had none in the Traversy app. These are "connection options". See notes. 
 });
 
 let gfs;
 conn.once('open', () => {
-  gfs = new mongoose.mongo.GridFSBucket(conn.db, {bucketName: 'images',});  // identical to my TM app's conn.
+  gfs = new mongoose.mongo.GridFSBucket(conn.db, {bucketName: 'images'});  // identical to my TM app's conn.
 });
 
 const storage = new GridFsStorage({
@@ -54,9 +54,9 @@ const storage = new GridFsStorage({
 // set up our multer to use the gridfs storage defined above
 const store = multer({
   storage,
+  // NOT USED IN TM (only storage):
   // limit the size to 20mb for any files coming in
   limits: { fileSize: 20000000 },
-
   // filter out invalid filetypes:
   // Set this to a function to control which files should be uploaded and which should be skipped. The function should look like this:
   // function fileFilter (req, file, cb). The function should call `cb` with a boolean to indicate if the file should be accepted

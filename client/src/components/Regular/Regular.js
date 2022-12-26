@@ -39,7 +39,7 @@ const Regular = () => {
       })
       // JUDGEMENT: this runs after the post request completes (WHERE DOES "DATA" VAR COME FROM???):
       .then(({ data }) => {
-        setImageId(data);
+        setImageId(data);     // we set state var "imageId" as our data
         setFile(null);
         setInputContainsFile(false);
         setCurrentlyUploading(false);   // all false since upload process is done. 
@@ -76,19 +76,21 @@ const Regular = () => {
     // SHOW IMAGES ON FRONTEND:
     <div className='regular'>
       <div className='image-section'>
-        {imageId ? (
+        {imageId ? (      // IMAGEID IS ONE OF OUR STATE VARIABLES. If this var exists...
           <>
             <img
               className='image'
               src={`/api/image/${imageId}`}
               alt='regular version'
             />
-            <a className='link' href={`/api/image/${imageId}`} target='_blank'>
+            {/* vvv this link opens the image in a new window (target='_blank') */}
+            <a className='link' href={`/api/image/${imageId}`} target='_blank'>   
               link
             </a>
           </>
         ) : (
-          <p className='nopic'>no regular version pic yet</p>
+          // if imageId (for our "regular" image) doesn't exist...
+          <p className='nopic'>no regular version pic yet</p>     
         )}
       </div>
 
