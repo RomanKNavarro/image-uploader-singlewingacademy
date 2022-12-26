@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const colors = require('colors')
 require('dotenv').config();
 const imageRoutes = require("./routes/imageRoutes");  // get our image routes from this file. 
 // const imageRoutes = require('./routes/image'); 
@@ -18,8 +19,7 @@ app.use("/api/image", () => imageRoutes)
 // any request from the frontend that gets sent to a route beginning with "/api/image" gets sent to imageRoutes.
 
 
-// routes should begin with /api/
-// since the front end proxies requests to any url beginning with /api/
+// routes should begin with /api/, since the front end proxies requests to any url beginning with /api/
 // from port 3000 to port 8000 in development
 // example route:
 // app.post("/api/auth/register", (req, res) => {....})
@@ -38,10 +38,24 @@ if (process.env.NODE_ENV === 'production') {
 
 // be sure to set your MONGO_URI in a .env file in both the root folder of your project
 // and in the config variables section on Heroku, in the settings page for your app
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Server is up on port ${port}!`);
-    });
-  });
+// mongoose
+//   .connect(process.env.MONGO_URI)
+//   .then(() => {
+//     app.listen(port, () => {
+//       console.log(`Server is up on port ${port}!`);
+//     });
+//   });
+
+const connectDB = async () => {
+  try {
+    // why does this and TM's image app use different func.s to connect to db? doesn't matter
+    const conn = await mongoose.connect(process.env.MONGO_URI)      // remember: we get our mongoURI from our .env file
+    console.log(`Roman's MongoDB Connected! ${conn.connection.host}`.cyan.underline);
+    // console.log(`Server is up on port ${port}!`);  
+  } catch (error) {
+    console.log(error)    
+    process.exit(1)
+  }
+}
+
+connectDB();

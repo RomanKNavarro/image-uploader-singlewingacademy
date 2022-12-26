@@ -162,13 +162,14 @@ require('dotenv').config();
 
 const mongoURI = process.env.MONGO_URI;
 const conn = mongoose.createConnection(mongoURI);
-
 let gfs;
 conn.once('open', () => {
   gfs = new mongoose.mongo.GridFSBucket(conn.db, {
     bucketName: 'images',
   });
 });
+// THIS USES ONCE(). MY JUDGEMENT: SO...IT IS ONLY MEANT TO RUN ONCE; AFTER THE FIRST TIME, IT DOESN'T RUN AGAIN,
+// OTHERWISE, A NEW BUCKET WILL BE CREATED. 
 
 const storage = new GridFsStorage({
   url: mongoURI,
