@@ -16,7 +16,7 @@ const Regular = () => {
     setInputContainsFile(true);       
   };
 
-  // CRAZY BIG FUNCTION:
+  // CRAZY BIG FUNCTION TO HANDLE FILE UPLOADS:
   const fileUploadHandler = () => {
     const fd = new FormData();
     // vvv Here we append our file to the FormData Obj. We use the state's "file" here
@@ -27,42 +27,42 @@ const Regular = () => {
        optional "options" object. We use it to "listen" to certain events.Inside here, we listen for onUploadProgress 
        events. When they occur, we set our "progress" state value as a percentage value. WHERE DO THE "TOTAL" and 
        "LOADED" PROP.S COME FROM?? */
-       axios
-      .post(`/api/image/upload`, fd, {
-        onUploadProgress: (progressEvent) => {
-          setProgress((progressEvent.loaded / progressEvent.total) * 100);
-          console.log(
-            'upload progress: ',
-            Math.round((progressEvent.loaded / progressEvent.total) * 100)    // we simply upload our progress to the console.
-          );
-        },
-      })
-      // JUDGEMENT: this runs after the post request completes (WHERE DOES "DATA" VAR COME FROM???):
-      .then(({ data }) => {
-        setImageId(data);     // we set state var "imageId" as our data
-        setFile(null);
-        setInputContainsFile(false);
-        setCurrentlyUploading(false);   // all false since upload process is done. 
-      })
+    axios
+    .post(`/api/image/upload`, fd, {
+      onUploadProgress: (progressEvent) => {
+        setProgress((progressEvent.loaded / progressEvent.total) * 100);
+        console.log(
+          'upload progress: ',
+          Math.round((progressEvent.loaded / progressEvent.total) * 100)    // we simply upload our progress to the console.
+        );
+      },
+    })
+    // JUDGEMENT: this runs after the post request completes (WHERE DOES "DATA" VAR COME FROM???):
+    .then(({ data }) => {
+      setImageId(data);     // we set state var "imageId" as our data
+      setFile(null);
+      setInputContainsFile(false);
+      setCurrentlyUploading(false);   // all false since upload process is done. 
+    })
 
-      // REST OF THIS IS FOR ERROR HANDLING. This is just an example. I can make it handle ANY error I want it to.
-      .catch((err) => {
-        console.log(err);
-        if (err.response.status === 400) {
-          const errMsg = err.response.data;     // why do we have to use "response" property?
-          if (errMsg) {
-            console.log(errMsg);
-            alert(errMsg);
-          }
-        } else if (err.response.status === 500) {
-          console.log('db error');
-          alert('db error');
-        } else {
-          console.log('other error: ', err);
+    // REST OF THIS IS FOR ERROR HANDLING. This is just an example. I can make it handle ANY error I want it to.
+    .catch((err) => {
+      console.log(err);
+      if (err.response.status === 400) {
+        const errMsg = err.response.data;     // why do we have to use "response" property?
+        if (errMsg) {
+          console.log(errMsg);
+          alert(errMsg);
         }
-        setInputContainsFile(false);
-        setCurrentlyUploading(false);
-      });
+      } else if (err.response.status === 500) {
+        console.log('db error');
+        alert('db error');
+      } else {
+        console.log('other error: ', err);
+      }
+      setInputContainsFile(false);
+      setCurrentlyUploading(false);
+    });
   };
 
   const handleClick = () => {   // used on line 48
@@ -90,7 +90,7 @@ const Regular = () => {
           </>
         ) : (
           // if imageId (for our "regular" image) doesn't exist...
-          <p className='nopic'>no regular version pic yet</p>     
+          <p className='nopic'>no regular version pic yet looooooool</p>     
         )}
       </div>
 
