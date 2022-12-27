@@ -33,7 +33,7 @@ const Regular = () => {
         setProgress((progressEvent.loaded / progressEvent.total) * 100);
         console.log(
           'upload progress: ',
-          Math.round((progressEvent.loaded / progressEvent.total) * 100)    // we simply upload our progress to the console.
+          Math.round((progressEvent.loaded / progressEvent.total) * 100)    // we simply upload our progress to the console. lol
         );
       },
     })
@@ -44,7 +44,6 @@ const Regular = () => {
       setInputContainsFile(false);
       setCurrentlyUploading(false);   // all false since upload process is done. 
     })
-
     // REST OF THIS IS FOR ERROR HANDLING. This is just an example. I can make it handle ANY error I want it to.
     .catch((err) => {
       console.log(err);
