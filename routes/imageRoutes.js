@@ -60,12 +60,12 @@ const uploadMiddleware = (req, res, next) => {
   });
 };
 
+// THIS IS SUPPOSED TO LOG THE FILE INFORMATION, BUT NOTHING HAPPENS. (SAME AS HIS)
 router.post('/upload/', uploadMiddleware, async (req, res) => {
   const { file } = req; 
   const { id } = file;  
   
   if (file.size > 5000000) {
-    
     deleteImage(id);  
     return res.status(400).send('file may not exceed 5mb');
   }

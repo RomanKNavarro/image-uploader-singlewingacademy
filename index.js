@@ -24,6 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const connectDB = async () => {
   try {   
+    mongoose.set('strictQuery',false);
     const conn = await mongoose.connect(process.env.MONGO_URI)      
     console.log(`Roman's MongoDB Connected! ${conn.connection.host}`.cyan.underline);
     console.log(`Server is up on port ${port}!`);  
